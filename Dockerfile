@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-22 as builder
+FROM maven:3.3.0-openjdk-22 as builder
 COPY . .
 RUN mvn clean package -DskipTests
 FROM openjdk:22-jdk-slim
