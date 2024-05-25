@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Start with the JDK 22 image
 FROM openjdk:22-jdk-slim as build
 
@@ -11,9 +10,6 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy the local code to the Docker container
-=======
-FROM maven:3.3.0-openjdk-22 as builder
->>>>>>> d8ba079 (styling changed)
 COPY . .
 
 # Build the application
