@@ -1,8 +1,13 @@
-FROM maven:3.3.0-openjdk-22 as builder
+FROM moudi:3.8.6-openjdk-17 as builder
+
+WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
-FROM openjdk:22-jdk-slim
+
+FROM openjdk:17-jdk-slim
 
 COPY --from=builder /app/target/*.jar /app/application.jar
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "assign1.jar"]
+
+CMD ["java", "-jar", "/app/application.jar"]
