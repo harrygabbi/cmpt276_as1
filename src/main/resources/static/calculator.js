@@ -118,7 +118,6 @@ function calculateResult(type) {
 }
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const rows = document.querySelectorAll('#activities tr');
     rows.forEach((row, index) => {
