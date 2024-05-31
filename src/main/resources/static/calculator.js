@@ -13,8 +13,8 @@ function addRow() {
 
     cell1.innerHTML = `Activity ${count}`;
     cell2.innerHTML = `A${count}`;
-    cell3.innerHTML = `<input type="number" class="weight">`;
-    cell4.innerHTML = `<input type="number" class="obtained"> / <input type="number" class="total">`;
+    cell3.innerHTML = `<input type="text" class="weight">`;
+    cell4.innerHTML = `<input type="text" class="obtained"> / <input type="text" class="total">`;
     cell5.innerHTML = `<span class="percent"></span>`;
 
     addInputListeners(row);
@@ -49,6 +49,15 @@ function calculateResult(type) {
     let totalRowCount = 0;
     let error = false;
 
+    const checkNumericInputs = (inputs) => {
+        for (let input of inputs) {
+            if (input.value.trim() !== '' && isNaN(parseFloat(input.value))) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     if (type === 'MEAN') {
         rows.forEach((row, index) => {
             if (index !== 0) { // Skip the header row
@@ -56,6 +65,11 @@ function calculateResult(type) {
                 const totalInput = row.querySelector('.total');
 
                 if (obtainedInput && totalInput) {
+                    if (!checkNumericInputs([obtainedInput, totalInput])) {
+                        error = true;
+                        return;
+                    }
+
                     const obtained = parseFloat(obtainedInput.value);
                     const total = parseFloat(totalInput.value);
 
@@ -68,7 +82,9 @@ function calculateResult(type) {
             }
         });
 
-        if (validRowCount > 0) {
+        if (error) {
+            result.innerHTML = 'Error: Please fill in all obtained and total fields with valid numeric values to calculate the mean.';
+        } else if (validRowCount > 0) {
             res /= validRowCount;
             result.innerHTML = 'Mean calculated grade = ' + res.toFixed(2);
             if (validRowCount < totalRowCount) {
@@ -88,6 +104,11 @@ function calculateResult(type) {
                 const totalInput = row.querySelector('.total');
 
                 if (weightInput && obtainedInput && totalInput) {
+                    if (!checkNumericInputs([weightInput, obtainedInput, totalInput])) {
+                        error = true;
+                        return;
+                    }
+
                     const weight = parseFloat(weightInput.value);
                     const obtained = parseFloat(obtainedInput.value);
                     const total = parseFloat(totalInput.value);
@@ -101,7 +122,9 @@ function calculateResult(type) {
             }
         });
 
-        if (totalWeight > 0) {
+        if (error) {
+            result.innerHTML = 'Error: Please fill in all weight, obtained, and total fields with valid numeric values to calculate the weighted average.';
+        } else if (totalWeight > 0) {
             res /= totalWeight;
             result.innerHTML = 'Weighted average calculated grade = ' + res.toFixed(3);
             if (totalWeightCount < rows.length - 1) {
@@ -116,7 +139,6 @@ function calculateResult(type) {
         result.innerHTML = 'Error: Invalid or incomplete input.';
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const rows = document.querySelectorAll('#activities tr');
