@@ -13,8 +13,8 @@ function addRow() {
 
     cell1.innerHTML = `Activity ${count}`;
     cell2.innerHTML = `A${count}`;
-    cell3.innerHTML = `<input type="text" class="weight">`;
-    cell4.innerHTML = `<input type="text" class="obtained"> / <input type="text" class="total">`;
+    cell3.innerHTML = `<input  class="weight">`;
+    cell4.innerHTML = `<input  class="obtained"> / <input  class="total">`;
     cell5.innerHTML = `<span class="percent"></span>`;
 
     addInputListeners(row);
